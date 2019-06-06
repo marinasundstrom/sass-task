@@ -1,0 +1,7 @@
+<Project>
+    <UsingTask TaskName="SassTask.SassCompile" AssemblyFile="$(MSBuildThisFileDirectory)SassTask.dll" />
+
+    <Target Name="CompileSass" BeforeTargets="Build">
+        <SassCompile></SassCompile>
+    </Target>
+</Project>

@@ -1,0 +1,9 @@
+@import 'test2.scss';
+
+.foo {
+    font-family: Arial, Helvetica, sans-serif;
+
+    .bar {
+        color: blue;
+    }
+}
