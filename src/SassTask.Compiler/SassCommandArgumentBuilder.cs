@@ -94,16 +94,7 @@ namespace Sass
             }
         }
 
-        private string ToRootedPath(string path)
-        {
-            if (!Path.IsPathRooted(path))
-            {
-                path = Path.Combine(
-                    directory,
-                    path);
-            }
-            return path;
-        }
+        private string ToRootedPath(string path) => PathHelpers.ToRootedPath(path, directory);
 
         private void ProcessFilePath(StringBuilder argsStringBuilder, string inputFileName)
         {

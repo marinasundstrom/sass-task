@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Build.Framework;
 using Sass;
@@ -36,9 +37,36 @@ namespace SassTask
 
                 ExecuteSassCommand(commandArguments);
 
+                if(!string.IsNullOrEmpty(config?.CompilerOptions.OutFile))
+                {
+                    await MergeFilesAsync(config);
+                }
+
                 return true;
             });
             return task.Result;
+        }
+
+        private static async Task MergeFilesAsync(SassConfig config)
+        {
+            var outDirPath = Environment.CurrentDirectory;
+            if (config.CompilerOptions?.OutDir != null)
+            {
+                outDirPath = PathHelpers.ToRootedPath(config.CompilerOptions.OutDir, Environment.CurrentDirectory);
+            }
+
+            var outFilePath = Path.Combine(outDirPath, config?.CompilerOptions.OutFile);
+
+            var filePaths = Directory
+                .GetFiles(outDirPath, "*.css", SearchOption.AllDirectories)
+                .Where(p => !p.Contains(outFilePath));
+
+            var cssFileMerger = new CssFileMerger();
+            await cssFileMerger.MergeFilesAsync(
+                filePaths.ToArray(), 
+                outFilePath, 
+                compress: config.CompilerOptions.Style == CssStyle.Compressed, 
+                true);
         }
 
         private void ExecuteSassCommand(string commandArguments)
@@ -51,7 +79,9 @@ namespace SassTask
                     sassProcess.StartInfo.FileName = SASS_EXECUTABLE_FILENAME;
                     sassProcess.StartInfo.Arguments = commandArguments;
                     sassProcess.StartInfo.CreateNoWindow = true;
+                    sassProcess.EnableRaisingEvents = true;
                     sassProcess.Start();
+                    sassProcess.WaitForExit(10*1000); //10 seconds
                 }
             }
             catch (Exception e)

@@ -10,8 +10,11 @@ namespace Sass
 {
     public class SassConfig
     {
-        public SassCompilerOptions CompilerOptions { get; private set; }
+        private SassCompilerOptions compilerOptions;
+
         public IEnumerable<string> Files { get; private set; } = null;
+
+        public SassCompilerOptions CompilerOptions => compilerOptions ?? (compilerOptions = new SassCompilerOptions());
 
         public async Task LoadAsync(Stream stream)
         {
@@ -26,24 +29,30 @@ namespace Sass
                 if (compilerOptionsElement
                     .TryGetProperty("style", out var styleElement))
                 {
-                    GetCompilerOptions().Style = (CssStyle)Enum.Parse(typeof(CssStyle), styleElement.GetString(), true);
+                    CompilerOptions.Style = (CssStyle)Enum.Parse(typeof(CssStyle), styleElement.GetString(), true);
                 }
                 if (compilerOptionsElement
                     .TryGetProperty("sourceMap", out var sourceMapElement))
                 {
-                    GetCompilerOptions().SourceMap = sourceMapElement.GetBoolean();
+                    CompilerOptions.SourceMap = sourceMapElement.GetBoolean();
                 }
 
                 if (compilerOptionsElement
                     .TryGetProperty("sourceDir", out var sourceDirElement))
                 {
-                    GetCompilerOptions().SourceDir = sourceDirElement.GetString();
+                    CompilerOptions.SourceDir = sourceDirElement.GetString();
                 }
 
                 if (compilerOptionsElement
                     .TryGetProperty("outDir", out var outDirElement))
                 {
-                    GetCompilerOptions().OutDir = outDirElement.GetString();
+                    CompilerOptions.OutDir = outDirElement.GetString();
+                }
+
+                if (compilerOptionsElement
+                    .TryGetProperty("outFile", out var outFile))
+                {
+                    CompilerOptions.OutFile = outFile.GetString();
                 }
             }
 
@@ -54,11 +63,6 @@ namespace Sass
                     .EnumerateArray()
                     .Select(item => item.GetString());
             }
-        }
-
-        private SassCompilerOptions GetCompilerOptions()
-        {
-            return CompilerOptions ?? (CompilerOptions = new SassCompilerOptions());
         }
     }
 }

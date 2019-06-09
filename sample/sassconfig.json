@@ -3,9 +3,11 @@
         "style": "expanded",
         "sourceMap": true,
         "sourceDir": "Content/scss",
-        "outDir": "wwwroot/css"
+        "outDir": "wwwroot/css",
+        "outFile": "site.css"
     },
     "files": [
-        "test.scss"
+        "test.scss",
+        "test3.scss"
     ]
 }
