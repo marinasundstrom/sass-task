@@ -56,17 +56,19 @@ The default settings are:
       "sourceMap": true,
       "sourceDir": ".",
       "outDir": ".",
+      "outFile": undefined
     },
-    "files": null
+    "files": undefined
 }
 ```
 
 ### Properties
 * compilerOptions
-  * style ("expanded" | "compressed") - the style of the output.
+  * style *("expanded" | "compressed")* - the style of the output.
   * sourceMap - indicating whether a source map should be created or not.
   * sourceDir - the directory in which the sass-files are located.
   * outDir - the directory to output css-files in.
+  * outFile *(optional)* - single output file
 * files - an array of file paths that will be exclusively included as input. Wildcards are accepted. 
 
 ## Build
