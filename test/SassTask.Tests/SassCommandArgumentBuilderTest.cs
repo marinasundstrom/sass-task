@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SassTask.Tests
 {
-    public class UnitTest2
+    public class SassCommandArgumentBuilderTest
     {
         [Fact]
         public async Task Test1()
@@ -18,11 +18,11 @@ namespace SassTask.Tests
                     
                 }
                 "));
-                
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            SassConfig config = new SassConfig();
-            await config.LoadAsync(memoryStream);
+            var loader = new SassConfigLoader();
+            var config = await loader.LoadAsync(memoryStream);
 
             SassCommandArgumentBuilder commandArgumentBuilder = new SassCommandArgumentBuilder(config, Environment.CurrentDirectory);
             var commandArguments = commandArgumentBuilder.BuildArgs();
@@ -44,11 +44,11 @@ namespace SassTask.Tests
                     ]
                 }
                 "));
-                
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            SassConfig config = new SassConfig();
-            await config.LoadAsync(memoryStream);
+            var loader = new SassConfigLoader();
+            var config = await loader.LoadAsync(memoryStream);
 
             SassCommandArgumentBuilder commandArgumentBuilder = new SassCommandArgumentBuilder(config, Environment.CurrentDirectory);
             var commandArguments = commandArgumentBuilder.BuildArgs();

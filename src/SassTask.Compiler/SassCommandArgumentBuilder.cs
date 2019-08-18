@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sass
 {
-    public class SassCommandArgumentBuilder
+    public sealed class SassCommandArgumentBuilder
     {
         private readonly string[] SASS_FILES_EXTENSIONS = new string[] {
                 ".sass", ".scss"

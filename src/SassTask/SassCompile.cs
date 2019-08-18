@@ -10,7 +10,7 @@ using MSBuildTask = Microsoft.Build.Utilities.Task;
 namespace SassTask
 {
 
-    public class SassCompile : MSBuildTask
+    public sealed class SassCompile : MSBuildTask
     {
         private const string SASS_EXECUTABLE_FILENAME = "sass";
         private const string SASS_CONFIG_FILENAME = "sassconfig.json";
@@ -19,32 +19,44 @@ namespace SassTask
         {
             var task = Task.Run(async () =>
             {
-                SassConfig config = new SassConfig();
-
-                var configFilePath = ConfigPath ?? SASS_CONFIG_FILENAME;
-                if (File.Exists(configFilePath))
+                try
                 {
-                    using (Stream stream = File.OpenRead(configFilePath))
+                    SassConfig config = null;
+
+                    var configFilePath = ConfigPath ?? SASS_CONFIG_FILENAME;
+
+
+                    if (File.Exists(configFilePath))
                     {
-                        await config.LoadAsync(stream);
+                        var sassConfigLoader = new SassConfigLoader();
+
+                        using (Stream stream = File.OpenRead(configFilePath))
+                        {
+                            config = await sassConfigLoader.LoadAsync(stream);
+                        }
                     }
+
+                    SassCommandArgumentBuilder commandArgumentBuilder = new SassCommandArgumentBuilder(config, Environment.CurrentDirectory);
+                    var commandArguments = commandArgumentBuilder.BuildArgs();
+
+                    Log.LogMessage(commandArguments);
+
+                    ExecuteSassCommand(commandArguments);
+
+                    if (!string.IsNullOrEmpty(config?.CompilerOptions.OutFile))
+                    {
+                        await MergeFilesAsync(config);
+                    }
+
+                    return true;
                 }
-
-                SassCommandArgumentBuilder commandArgumentBuilder = new SassCommandArgumentBuilder(config, Environment.CurrentDirectory);
-                var commandArguments = commandArgumentBuilder.BuildArgs();
-
-                Log.LogMessage(commandArguments);
-
-                ExecuteSassCommand(commandArguments);
-
-                if(!string.IsNullOrEmpty(config?.CompilerOptions.OutFile))
+                catch(Exception e) 
                 {
-                    await MergeFilesAsync(config);
+                    Console.WriteLine(e);
+                    return false;
                 }
-
-                return true;
             });
-            return task.Result;
+            return task.GetAwaiter().GetResult();
         }
 
         private static async Task MergeFilesAsync(SassConfig config)

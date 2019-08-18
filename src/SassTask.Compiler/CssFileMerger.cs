@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Sass
 {
-    public class CssFileMerger
+    public sealed class CssFileMerger
     {
         public async Task MergeFilesAsync(string[] filePaths, string outFile, bool compress = false, bool deleteOriginals = true, bool stripSourceMapping = true)
         {

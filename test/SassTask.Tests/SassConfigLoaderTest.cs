@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Text;
 using Xunit;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SassTask.Tests
 {
-    public class UnitTest1
+    public class SassConfigLoaderTest
     {
           [Fact]
         public async Task Test1()
@@ -21,8 +22,8 @@ namespace SassTask.Tests
                 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            SassConfig config = new SassConfig();
-            await config.LoadAsync(memoryStream);
+            var loader = new SassConfigLoader();
+            var config = await loader.LoadAsync(memoryStream);
         }
 
         [Fact]
@@ -39,8 +40,11 @@ namespace SassTask.Tests
                 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            SassConfig config = new SassConfig();
-            await config.LoadAsync(memoryStream);
+            var loader = new SassConfigLoader();
+            var config = await loader.LoadAsync(memoryStream);
+
+            Assert.NotNull(config.CompilerOptions);
+            Assert.Equal(CssStyle.Compressed, config.CompilerOptions.Style);
         }
 
         [Fact]
@@ -51,7 +55,7 @@ namespace SassTask.Tests
                 {
                     ""files"": [
                         ""file1"",
-                        ""file1"",
+                        ""file2"",
                         ""file3""
                     ]
                 }
@@ -59,8 +63,10 @@ namespace SassTask.Tests
                 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            SassConfig config = new SassConfig();
-            await config.LoadAsync(memoryStream);
+            var loader = new SassConfigLoader();
+            var config = await loader.LoadAsync(memoryStream);
+
+            Assert.True(config.Files.SequenceEqual(new [] { "file1", "file2", "file3" }));
         }
 
          [Fact]
@@ -83,8 +89,15 @@ namespace SassTask.Tests
                 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            SassConfig config = new SassConfig();
-            await config.LoadAsync(memoryStream);
+            var loader = new SassConfigLoader();
+            var config = await loader.LoadAsync(memoryStream);
+            
+            Assert.NotNull(config.CompilerOptions);
+            Assert.Equal(CssStyle.Expanded, config.CompilerOptions.Style);
+            Assert.True(config.CompilerOptions.SourceMap);
+            Assert.Equal("Content/scss", config.CompilerOptions.SourceDir);
+            Assert.Equal("wwwroot/css", config.CompilerOptions.OutDir);
+            Assert.Equal(new [] { "test.scss" }, config.Files);
         }
     }
 }

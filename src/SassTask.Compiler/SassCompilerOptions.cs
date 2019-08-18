@@ -1,6 +1,6 @@
 namespace Sass
 {
-    public class SassConfigCompilerOptions
+    public sealed class SassConfigCompilerOptions
     {
         public CssStyle? Style { get; set; } = null;
         public bool SourceMap { get; set; } = true;
