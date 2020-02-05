@@ -54,6 +54,9 @@ The default settings are:
     "compilerOptions": {
       "style": "expanded",
       "sourceMap": true,
+      "sourceMapUrls": "relative",
+      "embedSources": false,
+      "embedSourceMap": false,
       "sourceDir": ".",
       "outDir": "."
     },
@@ -65,6 +68,9 @@ The default settings are:
 * compilerOptions
   * style *("expanded" | "compressed")* - the style of the output.
   * sourceMap - indicating whether a source map should be created or not.
+  * sourceMapUrls *("relative" | "absolute")* - the type of paths to source files.
+  * embedSources - embed sources in the resulting CSS-files.
+  * embedSourceMap - embed source map in the resulting CSS-files.
   * sourceDir - the directory in which the sass-files are located.
   * outDir - the directory to output css-files in.
 * files - an array of file paths that will be exclusively included as input. Wildcards are accepted. 

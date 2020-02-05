@@ -12,10 +12,10 @@ __exec() {
     $cmd $@
 }
 
-rm -r artifacts/
-rm -r sample/obj/
-rm -r src/SassTask.Compiler/obj/
-rm -r src/SassTask/obj/
+rm -r artifacts/ || true
+rm -r sample/obj/ || true
+rm -r src/SassTask.Compiler/obj/ || true
+rm -r src/SassTask/obj/ || true
 
 __exec dotnet restore ./src/SassTask.Compiler/
 __exec dotnet pack -c Release ./src/SassTask.Compiler/

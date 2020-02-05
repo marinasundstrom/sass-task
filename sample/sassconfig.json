@@ -2,7 +2,10 @@
     "compilerOptions": {
         "style": "expanded",
         "sourceMap": true,
+        "sourceMapUrls": "relative",
         "sourceDir": "Content/scss",
+        "embedSources": true,
+        "embedSourceMap": true,
         "outDir": "wwwroot/css"
     },
     "files": [

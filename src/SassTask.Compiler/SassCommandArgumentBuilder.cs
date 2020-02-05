@@ -33,16 +33,37 @@ namespace Sass
                 argsStringBuilder.Append($" --style={config.CompilerOptions.Style.ToString().ToLower()}");
             }
 
-            if (!config.CompilerOptions?.SourceMap ?? false)
-            {
-                argsStringBuilder.Append(" --no-source-map");
-            }
+            BuildSourceMapOptions(argsStringBuilder);
 
             ParseFiles(argsStringBuilder);
 
             return argsStringBuilder.ToString();
         }
 
+        private void BuildSourceMapOptions(StringBuilder argsStringBuilder)
+        {
+            if (!(config.CompilerOptions?.SourceMap ?? true))
+            {
+                argsStringBuilder.Append(" --no-source-map");
+            }
+            else
+            {
+                if (config.CompilerOptions?.SourceMapUrls != null)
+                {
+                    argsStringBuilder.Append($" --source-map-urls  {config.CompilerOptions?.SourceMapUrls.ToString().ToLower()}");
+                }
+
+                if (config.CompilerOptions?.EmbedSources ?? false)
+                {
+                    argsStringBuilder.Append($" --embed-sources");
+                }
+
+                if (config.CompilerOptions?.EmbedSourceMap ?? false)
+                {
+                    argsStringBuilder.Append($" --embed-source-map");
+                }
+            }
+        }
 
         private void ParseFiles(StringBuilder argsStringBuilder)
         {
