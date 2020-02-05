@@ -33,7 +33,7 @@ The build task is then automatically imported.
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SassTask" Version="0.1.0-*" PrivateAssets="All" />
+    <PackageReference Include="SassTask" Version="0.2.0-*" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
@@ -55,8 +55,7 @@ The default settings are:
       "style": "expanded",
       "sourceMap": true,
       "sourceDir": ".",
-      "outDir": ".",
-      "outFile": undefined
+      "outDir": "."
     },
     "files": undefined
 }
@@ -68,7 +67,6 @@ The default settings are:
   * sourceMap - indicating whether a source map should be created or not.
   * sourceDir - the directory in which the sass-files are located.
   * outDir - the directory to output css-files in.
-  * outFile *(optional)* - single output file
 * files - an array of file paths that will be exclusively included as input. Wildcards are accepted. 
 
 ## Build

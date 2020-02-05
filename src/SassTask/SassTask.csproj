@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.2.0</VersionPrefix>
     <VersionSuffix>build$([System.DateTime]::Now.ToString('yyyyMMdd-HHmm'))</VersionSuffix>
     <Copyright>© Robert Sundström 2019</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -34,7 +34,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Build.Framework" Version="16.1.76" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.1.76" PrivateAssets="All" />
-    <PackageReference Include="SassTask.Compiler" Version="0.1.0-*" PrivateAssets="All" />
+    <PackageReference Include="SassTask.Compiler" Version="0.2.0-*" PrivateAssets="All" />
     <PackageReference Include="System.Text.Json" Version="4.6.0-preview8.19405.3" />
   </ItemGroup>
 

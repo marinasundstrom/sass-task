@@ -3,8 +3,7 @@
         "style": "expanded",
         "sourceMap": true,
         "sourceDir": "Content/scss",
-        "outDir": "wwwroot/css" //,
-       // "outFile": "site.css"
+        "outDir": "wwwroot/css"
     },
     "files": [
         "test.scss",

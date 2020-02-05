@@ -6,6 +6,5 @@ namespace Sass
         public bool SourceMap { get; set; } = false;
         public string SourceDir { get; set; } = null;
         public string OutDir { get; set; } = null;
-        public string OutFile { get; set; } = null;
     }
 }

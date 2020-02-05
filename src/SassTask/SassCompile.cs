@@ -43,11 +43,6 @@ namespace SassTask
 
                     ExecuteSassCommand(commandArguments);
 
-                    if (!string.IsNullOrEmpty(config?.CompilerOptions.OutFile))
-                    {
-                        await MergeFilesAsync(config);
-                    }
-
                     return true;
                 }
                 catch(Exception e) 
@@ -57,28 +52,6 @@ namespace SassTask
                 }
             });
             return task.GetAwaiter().GetResult();
-        }
-
-        private static async Task MergeFilesAsync(SassConfig config)
-        {
-            var outDirPath = Environment.CurrentDirectory;
-            if (config.CompilerOptions?.OutDir != null)
-            {
-                outDirPath = PathHelpers.ToRootedPath(config.CompilerOptions.OutDir, Environment.CurrentDirectory);
-            }
-
-            var outFilePath = Path.Combine(outDirPath, config?.CompilerOptions.OutFile);
-
-            var filePaths = Directory
-                .GetFiles(outDirPath, "*.css", SearchOption.AllDirectories)
-                .Where(p => !p.Contains(outFilePath));
-
-            var cssFileMerger = new CssFileMerger();
-            await cssFileMerger.MergeFilesAsync(
-                filePaths.ToArray(), 
-                outFilePath, 
-                compress: config.CompilerOptions.Style == CssStyle.Compressed, 
-                true);
         }
 
         private void ExecuteSassCommand(string commandArguments)
