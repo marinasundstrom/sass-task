@@ -3,5 +3,7 @@
         <MSBuildExtensionProperty Condition=" '$(MSBuildExtensionProperty)' == '' ">HelloWorld</MSBuildExtensionProperty>
 
         <_MSBuildExtensionPropsFile>$(MSBuildThisFile)</_MSBuildExtensionPropsFile>
+
+        <SassConfigPath>$(ProjectDir)/sassconfig.json</SassConfigPath>
     </PropertyGroup>
 </Project>

@@ -17,7 +17,7 @@ Cross-platform alternative to the [WebCompiler](https://github.com/madskristense
 Just add a reference to the [SassTask](https://www.nuget.org/packages/SassTask) package in your project.
 
 ```sh
-dotnet add package SassTask --version 0.1.0-*
+dotnet add package SassTask --version 0.2.0-*
 ```
 
 The build task is then automatically imported.
@@ -30,6 +30,11 @@ The build task is then automatically imported.
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Optional -->
+    <SassConfigPath>sassconfig.json</SassConfigPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -45,7 +50,8 @@ The file extensions recogzined by the build task are ```.sass``` and ```.scss```
 
 ## Configuration file
 
-The build task can be confgured in the ```sassconfig.json``` file.
+The build task can be confgured in the ```sassconfig.json``` file. 
+By default, it is expected to be in the project directory.
 
 The default settings are:
 
@@ -53,6 +59,7 @@ The default settings are:
 {
     "compilerOptions": {
       "style": "expanded",
+      "update": false,
       "sourceMap": true,
       "sourceMapUrls": "relative",
       "embedSources": false,
@@ -67,6 +74,7 @@ The default settings are:
 ### Properties
 * compilerOptions
   * style *("expanded" | "compressed")* - the style of the output.
+  * update - indicating that only files that have changed should be compiled.
   * sourceMap - indicating whether a source map should be created or not.
   * sourceMapUrls *("relative" | "absolute")* - the type of paths to source files.
   * embedSources - embed sources in the resulting CSS-files.

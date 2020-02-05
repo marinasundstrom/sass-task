@@ -1,11 +1,12 @@
 {
     "compilerOptions": {
         "style": "expanded",
+        "update": true,
         "sourceMap": true,
         "sourceMapUrls": "relative",
-        "sourceDir": "Content/scss",
         "embedSources": true,
         "embedSourceMap": true,
+        "sourceDir": "Content/scss",
         "outDir": "wwwroot/css"
     },
     "files": [

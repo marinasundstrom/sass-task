@@ -25,15 +25,27 @@ namespace SassTask
 
                     var configFilePath = ConfigPath ?? SASS_CONFIG_FILENAME;
 
-
-                    if (File.Exists(configFilePath))
+                    if (configFilePath != null)
                     {
-                        var sassConfigLoader = new SassConfigLoader();
-
-                        using (Stream stream = File.OpenRead(configFilePath))
+                        if (File.Exists(configFilePath))
                         {
-                            config = await sassConfigLoader.LoadAsync(stream);
+                            var sassConfigLoader = new SassConfigLoader();
+
+                            using (Stream stream = File.OpenRead(configFilePath))
+                            {
+                                config = await sassConfigLoader.LoadAsync(stream);
+                            }
+                        } 
+                        else 
+                        {
+                            Log.LogError($"Config file \"{configFilePath}\" does not exist.");
+                            return false;
                         }
+                    }
+                    else 
+                    {
+                        // Default config
+                        config = new SassConfig();
                     }
 
                     SassCommandArgumentBuilder commandArgumentBuilder = new SassCommandArgumentBuilder(config, Environment.CurrentDirectory);
@@ -43,11 +55,13 @@ namespace SassTask
 
                     ExecuteSassCommand(commandArguments);
 
+                    Log.LogMessage($"Sass files were compiled.");
+
                     return true;
                 }
                 catch(Exception e) 
                 {
-                    Console.WriteLine(e);
+                    Log.LogErrorFromException(e);
                     return false;
                 }
             });
@@ -56,22 +70,15 @@ namespace SassTask
 
         private void ExecuteSassCommand(string commandArguments)
         {
-            try
+            using (Process sassProcess = new Process())
             {
-                using (Process sassProcess = new Process())
-                {
-                    sassProcess.StartInfo.UseShellExecute = false;
-                    sassProcess.StartInfo.FileName = SASS_EXECUTABLE_FILENAME;
-                    sassProcess.StartInfo.Arguments = commandArguments;
-                    sassProcess.StartInfo.CreateNoWindow = true;
-                    sassProcess.EnableRaisingEvents = true;
-                    sassProcess.Start();
-                    sassProcess.WaitForExit(10*1000); //10 seconds
-                }
-            }
-            catch (Exception e)
-            {
-                Log.LogError(e.Message);
+                sassProcess.StartInfo.UseShellExecute = false;
+                sassProcess.StartInfo.FileName = SASS_EXECUTABLE_FILENAME;
+                sassProcess.StartInfo.Arguments = commandArguments;
+                sassProcess.StartInfo.CreateNoWindow = true;
+                sassProcess.EnableRaisingEvents = true;
+                sassProcess.Start();
+                sassProcess.WaitForExit(10*1000); //10 seconds
             }
         }
 

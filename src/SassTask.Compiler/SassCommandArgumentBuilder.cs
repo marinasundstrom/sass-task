@@ -33,6 +33,11 @@ namespace Sass
                 argsStringBuilder.Append($" --style={config.CompilerOptions.Style.ToString().ToLower()}");
             }
 
+            if (config.CompilerOptions?.Update ?? false)
+            {
+                argsStringBuilder.Append($" --update");
+            }
+
             BuildSourceMapOptions(argsStringBuilder);
 
             ParseFiles(argsStringBuilder);

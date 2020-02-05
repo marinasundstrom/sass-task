@@ -2,6 +2,6 @@
     <UsingTask TaskName="SassTask.SassCompile" AssemblyFile="$(MSBuildThisFileDirectory)SassTask.dll" />
 
     <Target Name="CompileSass" BeforeTargets="Build">
-        <SassCompile></SassCompile>
+        <SassCompile ConfigPath="$(SassConfigPath)"></SassCompile>
     </Target>
 </Project>
