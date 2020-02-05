@@ -4,6 +4,6 @@
 
         <_MSBuildExtensionPropsFile>$(MSBuildThisFile)</_MSBuildExtensionPropsFile>
 
-        <SassConfigPath>$(ProjectDir)/sassconfig.json</SassConfigPath>
+        <SassConfigPath>$(MSBuildProjectDirectory)\sassconfig.json</SassConfigPath>
     </PropertyGroup>
 </Project>

@@ -27,6 +27,8 @@ namespace SassTask
 
                     if (configFilePath != null)
                     {
+                        configFilePath = Path.GetFullPath(configFilePath);
+
                         if (File.Exists(configFilePath))
                         {
                             var sassConfigLoader = new SassConfigLoader();
@@ -55,7 +57,7 @@ namespace SassTask
 
                     ExecuteSassCommand(commandArguments);
 
-                    Log.LogMessage($"Sass files were compiled.");
+                    Log.LogMessage($"Sass files were successfully compiled.");
 
                     return true;
                 }

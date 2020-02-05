@@ -5,10 +5,6 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <SassConfigPath>sassconfig.json</SassConfigPath>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="SassTask" Version="0.2.0-*" PrivateAssets="all" />
   </ItemGroup>
