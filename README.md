@@ -9,7 +9,7 @@ Cross-platform alternative to the [WebCompiler](https://github.com/madskristense
 
 ## Prerequisites
 
-* [.NET Core SDK 2](https://www.dot.net/) or later, or .NET Framework 4.7.2 or later.
+* [.NET Core SDK 3](https://www.dot.net/) or later, or .NET Framework 4.7.2 or later.
 * Latest version of [Sass](https://sass-lang.com) installed on your computer.
 
 ## Usage
@@ -33,8 +33,8 @@ The build task is then automatically imported.
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- Optional -->
-    <SassConfigPath>sassconfig.json</SassConfigPath>
+    <SassConfigPath Condition="'$(Configuration)'=='Debug'">sassconfig.debug.json</SassConfigPath>
+    <SassConfigPath Condition="'$(Configuration)'=='Release'">sassconfig.json</SassConfigPath>
   </PropertyGroup>
 
   <ItemGroup>
