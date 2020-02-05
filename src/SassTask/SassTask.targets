@@ -1,7 +1,11 @@
 <Project>
     <UsingTask TaskName="SassTask.SassCompile" AssemblyFile="$(MSBuildThisFileDirectory)SassTask.dll" />
 
-    <Target Name="CompileSass" BeforeTargets="Build">
+    <ItemGroup>
+        <SassFiles Include="*\**\*.scss;*\**\*.sass" />
+    </ItemGroup>
+
+    <Target Name="CompileSass" BeforeTargets="Build" Inputs="@(SassFiles)" Outputs="files.log">
         <SassCompile ConfigPath="$(SassConfigPath)"></SassCompile>
     </Target>
 </Project>
