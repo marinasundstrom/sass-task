@@ -18,11 +18,13 @@
     <Title>SassTask</Title>
   </PropertyGroup>
 
-    <ItemGroup>
-        <Content Include="SassTask.props;SassTask.targets" Pack="true" PackagePath="build/" />
-        <None Include="bin/SassTask.dll;bin/SassTask.Compiler.dll" Pack="true" PackagePath="build/" />
-    </ItemGroup>
+  <ItemGroup>
+    <FilesToInclude Include="$(OutDir)\*.dll" />
 
+    <Content Include="SassTask.props;SassTask.targets" Pack="true" PackagePath="build/" />
+    <None Include="@(FilesToInclude)" Pack="true" PackagePath="build/" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.Build.Framework" Version="16.4.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.4.0" PrivateAssets="All" />
@@ -30,8 +32,8 @@
     <PackageReference Include="System.Text.Json" Version="4.7.0" />
   </ItemGroup>
 
-      <Target Name="MSBuildExtensionAfterBuild" AfterTargets="Build">
-        <Message Text="After build, MSBuildExtensionProperty = '$(OutDir)'." Importance="high" />
-    </Target>
+  <Target Name="MSBuildExtensionAfterBuild" AfterTargets="Build">
+    <Message Text="After build, MSBuildExtensionProperty = '$(OutDir)'." Importance="high" />
+  </Target>
 
 </Project>
